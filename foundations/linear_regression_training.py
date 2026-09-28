@@ -19,19 +19,18 @@ class Solution:
         num_iterations: int,
         initial_weights: NDArray[np.float64]
     ) -> NDArray[np.float64]:
-
-        N= len(X)
-        weights= np.copy(initial_weights)
-        num_weight= len(weights)
+        
+        weights=initial_weights.copy()
         # For each iteration:
-        for epoch in range(num_iterations):
-            prediction = self.get_model_prediction(X,weights)
-
-            for j in range(num_weight):
-                grad = self.get_derivative(prediction, Y, N, X, j)
-                weights[j]-= self.learning_rate*grad 
         #   1. Compute predictions with get_model_prediction(X, weights)
         #   2. For each weight index j, compute gradient with get_derivative()
         #   3. Update: weights[j] -= learning_rate * gradient
         # Return np.round(final_weights, 5)
-        return np.round(weights,5)
+        for _ in range(num_iterations):
+            preds=self.get_model_prediction(X, weights)
+            for j in range(len(weights)):
+                grad=self.get_derivative(preds, Y, len(X), X, j)
+                weights[j]-=(self.learning_rate*grad)
+        
+        return np.round(weights, 5)
+            
