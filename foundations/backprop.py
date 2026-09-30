@@ -9,13 +9,8 @@ class Solution:
         # w: 1D weight array
         # b: scalar bias
         # y_true: true target value
-        z= np.dot(x,w)+b
+        z= w@x+b
         y_hat= 1/(1+np.exp(-z))
-        loss= 0.5*((y_hat-y_true)**2)
-        dz_dy= y_hat-y_true
-        dy_dz= y_hat*(1-y_hat)
-        delta= dz_dy*dy_dz
-        dl_ddw=delta*x
-        dl_db=delta*1.0
-        return np.round(dl_ddw,5) , float(np.round(dl_db, 5))
+        grad= np.round((y_hat-y_true)*y_hat*(1-y_hat),5)
+        return grad*x, grad
        
